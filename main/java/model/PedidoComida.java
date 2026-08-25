@@ -4,8 +4,8 @@ public class PedidoComida extends Pedido {
 
     private boolean tieneMochilaTermica;
 
-    public PedidoComida(String idPedido, String direccionEntrega, boolean tieneMochilaTermica) {
-        super(idPedido, direccionEntrega, "Comida");
+    public PedidoComida(String idPedido, String direccionEntrega, double distanciakm,boolean tieneMochilaTermica) {
+        super(idPedido, direccionEntrega, distanciakm,"Comida");
         this.tieneMochilaTermica = tieneMochilaTermica;
     }
 
@@ -13,13 +13,13 @@ public class PedidoComida extends Pedido {
         return tieneMochilaTermica;
     }
 
-    /**
-     * Sobreescritura: valida que el repartidor cuente con mochila
-     * térmica antes de continuar con la asignación.
-     */
+    @Override
+    public int calcularTiempoEntrega() {
+        return (int) Math.round(15 + 2 * distanciaKm);
+    }
+
     @Override
     public void asignarRepartidor() {
-        System.out.println("[Pedido Comida | " + idPedido + "]");
         System.out.println("Asignando repartidor...");
         if (tieneMochilaTermica) {
             System.out.println("-> Verificando mochila térmica... OK");
@@ -28,10 +28,7 @@ public class PedidoComida extends Pedido {
         }
     }
 
-    /**
-     * Sobrecarga: además de la validación propia del tipo de pedido,
-     * confirma (o rechaza) la asignación al repartidor indicado.
-     */
+
     @Override
     public void asignarRepartidor(String nombreRepartidor) {
         asignarRepartidor();

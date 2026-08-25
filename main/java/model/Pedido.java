@@ -1,19 +1,16 @@
 package model;
 
-/**
- * Clase base que representa un pedido genérico dentro del sistema de
- * SpeedFast.
- */
-
-public class Pedido {
+public abstract class Pedido {
     protected String idPedido;
     protected String direccionEntrega;
     protected String tipoPedido;
+    protected double distanciaKm;
 
-    public Pedido(String idPedido, String direccionEntrega, String tipoPedido) {
+    public Pedido(String idPedido, String direccionEntrega,double distanciaKm, String tipoPedido) {
         this.idPedido = idPedido;
         this.direccionEntrega = direccionEntrega;
         this.tipoPedido = tipoPedido;
+        this.distanciaKm=distanciaKm;
     }
 
     public String getIdPedido() {
@@ -28,10 +25,17 @@ public class Pedido {
         return tipoPedido;
     }
 
+    public void mostrarResumen(){
+        System.out.println("Pedido " + tipoPedido + " | " + idPedido);
+        System.out.println("Dirección de entrega: " + direccionEntrega);
+        System.out.println("Distancia: " + distanciaKm + " km");
+    }
+
+    public abstract int calcularTiempoEntrega();
+
     public void asignarRepartidor() {
-        System.out.println("[Pedido " + tipoPedido + " | " + idPedido + "]");
+        System.out.println("Pedido " + tipoPedido + " | " + idPedido);
         System.out.println("Asignando repartidor...");
-        System.out.println("-> Lógica genérica: no hay validaciones especiales para este tipo de pedido.");
     }
 
 
