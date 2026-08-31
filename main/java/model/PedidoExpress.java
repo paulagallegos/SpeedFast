@@ -44,4 +44,16 @@ public class PedidoExpress extends Pedido {
             System.out.println("-> No se pudo asignar a " + nombreRepartidor + ": sin repartidores cercanos disponibles");
         }
     }
+
+    @Override
+    public boolean despachar(String estadoEnvio) {
+        System.out.println("[Pedido " + tipoPedido + " | " + idPedido + "] Despachando... Estado: " + estadoEnvio);
+        return true;
+    }
+
+    @Override
+    public boolean cancelar(String motivoCancelacion) {
+        System.out.println("[Pedido " + tipoPedido + " | " + idPedido + "] Cancelando... Motivo: " + motivoCancelacion);
+        return true;
+    }
 }

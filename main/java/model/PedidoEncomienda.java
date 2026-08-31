@@ -25,6 +25,8 @@ public class PedidoEncomienda extends Pedido {
         return pesoKg <= peso_maximo_kg;
     }
 
+
+    @Override
     public int calcularTiempoEntrega() {
         return (int) Math.round(20+ 1.5 * distanciaKm);
     }
@@ -49,5 +51,17 @@ public class PedidoEncomienda extends Pedido {
         } else {
             System.out.println("-> No se pudo asignar a " + nombreRepartidor + ": peso o embalaje no cumplen los requisitos");
         }
+    }
+
+    @Override
+    public boolean despachar(String estadoEnvio) {
+        System.out.println("[Pedido " + tipoPedido + " | " + idPedido + "] Despachando... Estado: " + estadoEnvio);
+        return true;
+    }
+
+    @Override
+    public boolean cancelar(String motivoCancelacion) {
+        System.out.println("[Pedido " + tipoPedido + " | " + idPedido + "] Cancelando... Motivo: " + motivoCancelacion);
+        return true;
     }
 }

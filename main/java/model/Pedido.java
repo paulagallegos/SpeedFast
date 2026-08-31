@@ -1,6 +1,6 @@
 package model;
 
-public abstract class Pedido {
+public abstract class Pedido implements Cancelable,Despachable {
     protected String idPedido;
     protected String direccionEntrega;
     protected String tipoPedido;
