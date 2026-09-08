@@ -1,6 +1,8 @@
 package model;
 
-
+/**
+ * Representa un pedido express de SpeedFast
+ */
 public class PedidoExpress extends Pedido {
     private static final double umbral_distancia_km = 5.0;
     private static final int tiempo_base_min = 10;
@@ -12,10 +14,20 @@ public class PedidoExpress extends Pedido {
         this.repartidorCercanoDisponible = repartidorCercanoDisponible;
     }
 
+    /**
+     *
+     * @return true si hay un repartidor cercano disponible
+     */
     public boolean isRepartidorCercanoDisponible() {
         return repartidorCercanoDisponible;
     }
 
+    /**
+     * Calcula el tiempo estimado de entrega en base a la distancia, usando una fórmula propia de las encomiendas (tiempo base más un factor por
+     * kilómetro recorrido).
+     *
+     * @return tiempo estimado de entrega, en minutos
+     */
     @Override
     public int calcularTiempoEntrega() {
         int tiempo = tiempo_base_min;
@@ -25,6 +37,9 @@ public class PedidoExpress extends Pedido {
         return tiempo;
     }
 
+    /**
+     * Asigna un repartidor a esta encomienda, validando primero que el peso y el embalaje cumplan los requisitos necesarios para el envío.
+     */
     @Override
     public void asignarRepartidor() {
         System.out.println("Asignando repartidor...");
@@ -35,6 +50,9 @@ public class PedidoExpress extends Pedido {
         }
     }
 
+    /**
+     * Asigna un repartidor a este pedido, validando primero que se cuente con mochila térmica disponible.
+     */
     @Override
     public void asignarRepartidor(String nombreRepartidor) {
         asignarRepartidor();
@@ -45,12 +63,24 @@ public class PedidoExpress extends Pedido {
         }
     }
 
+    /**
+     * Despacha este pedido de comida, registrando su estado de envío actual.
+     *
+     * @param estadoEnvio estado actual del envío (por ejemplo, "En camino")
+     * @return true si el pedido fue despachado correctamente
+     */
     @Override
     public boolean despachar(String estadoEnvio) {
         System.out.println("[Pedido " + tipoPedido + " | " + idPedido + "] Despachando... Estado: " + estadoEnvio);
         return true;
     }
 
+    /**
+     * Cancela esta encomienda, registrando el motivo de la cancelación.
+     *
+     * @param motivoCancelacion motivo por el cual se cancela el pedido
+     * @return true si el pedido fue cancelado correctamente
+     */
     @Override
     public boolean cancelar(String motivoCancelacion) {
         System.out.println("[Pedido " + tipoPedido + " | " + idPedido + "] Cancelando... Motivo: " + motivoCancelacion);
