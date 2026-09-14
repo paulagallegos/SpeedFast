@@ -1,19 +1,14 @@
 import model.*;
-
-import java.util.ArrayList;
-import java.util.List;
-import java.util.concurrent.Executor;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 import java.util.concurrent.TimeUnit;
 
+/** Crea los pedidos y su asignación inicial,
+ * y luego simula el reparto concurrente cargando los pedidos en la
+ *  ZonaDeCarga compartida
+ */
+
 public class Main {
-
-    /**
-     * Ejecuta la entrega secuencial de todos los pedidos asignados a este repartidor. Por cada pedido, informa en consola el inicio y término
-     * de la entrega, simulando el tiempo de viaje con una pausa aleatoria.
-     */
-
 
     public static void main(String[] args) {
 
@@ -22,7 +17,7 @@ public class Main {
 
         /**
          * Incializacion de las instancias de pedido
-          */
+         */
         PedidoComida pedidoComida = new PedidoComida("PC-001", "Av. Providencia 1234, Providencia", 10.5, true);
         PedidoComida pedidoComida2 = new PedidoComida("PC-002", "Av. Salvador 334, Providencia", 12, true);
         PedidoComida pedidoComida3 = new PedidoComida("PC-003", "Av. Apoquindo 124, Las Condes", 15, true);
@@ -85,46 +80,45 @@ public class Main {
         System.out.println("Entregas de pedidos");
         System.out.println();
 
-        List<Pedido> pedidosJuan=new ArrayList<>();
-        pedidosJuan.add(pedidoComida);
-        pedidosJuan.add(pedidoComida2);
-        pedidosJuan.add(pedidoComida3);
 
-        List<Pedido> pedidosCamila= new ArrayList<>();
-        pedidosCamila.add(pedidoEncomienda);
-        pedidosCamila.add(pedidoEncomienda2);
+        ZonaDeCarga zonaDeCarga= new ZonaDeCarga();
+        zonaDeCarga.agregarPedido(pedidoComida);
+        zonaDeCarga.agregarPedido(pedidoComida2);
+        zonaDeCarga.agregarPedido(pedidoComida3);
+        zonaDeCarga.agregarPedido(pedidoEncomienda);
+        zonaDeCarga.agregarPedido(pedidoEncomienda2);
+        zonaDeCarga.agregarPedido(pedidoExpress);
+        zonaDeCarga.agregarPedido(pedidoExpress2);
 
-        List<Pedido> pedidosLuis=new ArrayList<>();
-        pedidosLuis.add(pedidoExpress);
-        pedidosLuis.add(pedidoExpress2);
 
         /**
          * Incializacion de las instancias de Repartidor
          */
-        Repartidor repartidorJuan= new Repartidor("Juan Pérez",pedidosJuan);
-        Repartidor repartidorCamila=new Repartidor("Camila Soto",pedidosCamila);
-        Repartidor repartidorLuis= new Repartidor("Luis Díaz", pedidosLuis);
+        Repartidor repartidor= new Repartidor ("Juan Pérez",zonaDeCarga);
+        Repartidor repartidor2= new Repartidor("Camila Soto",zonaDeCarga );
+        Repartidor repartidor3 =new Repartidor("Luis Díaz",zonaDeCarga );
 
         /**
          * Administrador para manejar los hilos disponibles
          */
         ExecutorService ejecutor= Executors.newFixedThreadPool(3);
 
-        ejecutor.execute(repartidorJuan);
-        ejecutor.execute(repartidorCamila);
-        ejecutor.execute(repartidorLuis);
+        ejecutor.execute(repartidor);
+        ejecutor.execute(repartidor2);
+        ejecutor.execute(repartidor3);
 
 
         /**
          * Espera y cierre del proceso de reparto
          */
-        ejecutor.shutdown();                          // 1. no acepto tareas nuevas
+        ejecutor.shutdown();                          // para no aceptar tareas nuevas
         try {
-            ejecutor.awaitTermination(1, TimeUnit.MINUTES); // 2. espero a que las actuales terminen
+            ejecutor.awaitTermination(1, TimeUnit.MINUTES); //Esperar a que las actuales terminen
         } catch (InterruptedException e) {
             System.out.println("La espera fue interrumpida");
         }
         System.out.println();
-        System.out.println("Todas las entregas finalizaron");
+        System.out.println("===================================================");
+        System.out.println("Todos los pedidos han sido entregados correctamente");
     }
 }

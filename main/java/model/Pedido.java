@@ -9,6 +9,7 @@ public abstract class Pedido implements Cancelable,Despachable {
     protected String direccionEntrega;
     protected String tipoPedido;
     protected double distanciaKm;
+    protected EstadoPedido estadoPedido;
 
     /**
      *
@@ -22,6 +23,15 @@ public abstract class Pedido implements Cancelable,Despachable {
         this.direccionEntrega = direccionEntrega;
         this.tipoPedido = tipoPedido;
         this.distanciaKm=distanciaKm;
+        this.estadoPedido=EstadoPedido.PENDIENTE; // El pedido nace como pendiente; no se recibe por parámetro porque no tendría sentido crear un pedido ya EN_REPARTO o ENTREGADO
+    }
+
+    /**
+     *
+     * @return el estado de envio del pedido
+     */
+    public EstadoPedido getEstadoPedido() {
+        return estadoPedido;
     }
 
     /**
@@ -48,10 +58,17 @@ public abstract class Pedido implements Cancelable,Despachable {
         return tipoPedido;
     }
 
+    public void setEstadoPedido(EstadoPedido estadoPedido) {
+        this.estadoPedido = estadoPedido;
+    }
+
     /**
      * Muestra en consola un resumen del pedido: tipo, identificador,
      * dirección de entrega y distancia.
      */
+
+
+
     public void mostrarResumen(){
         System.out.println("Pedido " + tipoPedido + " | " + idPedido);
         System.out.println("Dirección de entrega: " + direccionEntrega);
