@@ -9,7 +9,8 @@ public abstract class Pedido implements Cancelable,Despachable {
     protected String direccionEntrega;
     protected String tipoPedido;
     protected double distanciaKm;
-    protected EstadoPedido estadoPedido;
+    protected volatile EstadoPedido estadoPedido;
+    protected volatile String repartidorAsignado;
 
     /**
      *
@@ -60,6 +61,24 @@ public abstract class Pedido implements Cancelable,Despachable {
 
     public void setEstadoPedido(EstadoPedido estadoPedido) {
         this.estadoPedido = estadoPedido;
+    }
+    /**
+     *
+     * @return el nombre del repartidor asignado, o null si aún no tiene
+     */
+    public String getRepartidorAsignado() {
+        return repartidorAsignado;
+    }
+
+    public void setRepartidorAsignado(String repartidorAsignado) {
+        this.repartidorAsignado = repartidorAsignado;
+    }
+    /**
+     *
+     * @return la distancia en km hasta el lugar de entrega
+     */
+    public double getDistanciaKm() {
+        return distanciaKm;
     }
 
     /**
